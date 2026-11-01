@@ -1,0 +1,19 @@
+services:
+  floci:
+    image: floci/floci:latest
+    restart: unless-stopped
+    ports:
+      - "4566:4566"
+    environment:
+      # Active le mode de stockage persistant
+      - FLOCI_STORAGE_MODE=persistent
+      # (Optionnel) Définit l'emplacement interne des données
+      - FLOCI_STORAGE_PERSISTENT_PATH=/app/data
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      # Monte un volume nommé pour conserver les fichiers sur votre machine hôte
+      - /var/run/docker.sock:/var/run/docker.sock
+      - floci-data:/app/data
+
+volumes:
+  floci-data:
